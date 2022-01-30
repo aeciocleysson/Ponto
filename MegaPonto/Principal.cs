@@ -84,7 +84,7 @@ namespace MegaPonto
                     logViewModel.Descricao = "Iniciou os trabalhos";
                     logViewModel.FuncionarioId = funcionario.Id;
 
-                    var logModel = new LogPonto(log: logViewModel.Log, descricao: logViewModel.Descricao ,logViewModel.FuncionarioId);
+                    var logModel = new LogPonto(log: logViewModel.Log, descricao: logViewModel.Descricao, logViewModel.FuncionarioId);
 
                     _context.Add(model);
                     _context.SaveChanges();
@@ -98,107 +98,104 @@ namespace MegaPonto
 
                 var logPonto = _context.Log.Where(w => w.FuncionarioId == funcionario.Id && w.Inserted == DateTime.Today).Max(w => w.Log);
 
-                var scoreOutLanch = _context.Ponto.Where(a => a.FuncionarioId == funcionario.Id && a.Matricula == funcionario.Matricula && a.Inserted == date 
-                                                              && logPonto == 1).SingleOrDefault();
+                var saidaIntervalo = _context.Ponto.Where(a => a.FuncionarioId == funcionario.Id && a.Matricula == funcionario.Matricula && a.Inserted == date
+                                                              && logPonto == (int)LogPonto.ELog.InicioTrabalho).SingleOrDefault();
 
-                //    if (scoreOutLanch != null)
-                //    {
-                //        viewModel.OutLanch = TimeSpan.Parse(lblHoraAtual.Text);
-                //        viewModel.Id = scoreOutLanch.Id;
+                if (saidaIntervalo != null)
+                {
+                    viewModel.SaidaIntervalo = TimeSpan.Parse(lblHoraAtual.Text);
+                    viewModel.Id = saidaIntervalo.Id;
 
-                //        var result = _context.Scores.Find(viewModel.Id);
+                    var result = _context.Ponto.Find(viewModel.Id);
 
-                //        result.UpdateOutLanch(outLanch: viewModel.OutLanch);
+                    result.SaidaAlmocoIntervalo(saidaIntervalo: viewModel.SaidaIntervalo);
 
-                //        logViewModel.Log = (int)StatusLog.ELog.SaidaAlmoco;
-                //        logViewModel.EmployeeId = employee.Id;
+                    logViewModel.Log = (int)LogPonto.ELog.SaidaAlmoco;
+                    logViewModel.Descricao = "Saiu para o almoço/intervalo";
+                    logViewModel.FuncionarioId = funcionario.Id;
 
-                //        var logModel = new LogScore(log: logViewModel.Log, employeeId: logViewModel.EmployeeId);
+                    var logModel = new LogPonto(log: logViewModel.Log, descricao: logViewModel.Descricao, funcionarioid: logViewModel.FuncionarioId);
 
-                //        _context.Scores.Update(result);
-                //        _context.SaveChanges();
+                    _context.Ponto.Update(result);
+                    _context.SaveChanges();
 
-                //        _context.Add(logModel);
-                //        _context.SaveChanges();
+                    _context.Add(logModel);
+                    _context.SaveChanges();
 
-                //        GetAll();
-                //        ClearFields();
-                //        return;
-                //    }
+                    GetAll();
+                    return;
+                }
 
-                //    var scoreReturnLanch = _context.Scores.Where(a => a.EmployeeId == employee.Id && a.Code == employee.Code && a.Inserted == date
-                //                                                 /*a.ReturnLunch != DateTime.Now*/ && logScore == 2).SingleOrDefault();
+                var retornoIntervalo = _context.Ponto.Where(a => a.FuncionarioId == funcionario.Id && a.Matricula == funcionario.Matricula && a.Inserted == date
+                                                                  && logPonto == (int)LogPonto.ELog.SaidaAlmoco).SingleOrDefault();
 
-                //    if (scoreReturnLanch != null)
-                //    {
-                //        viewModel.ReturnLunch = TimeSpan.Parse(lblHoraAtual.Text);
-                //        viewModel.Id = scoreReturnLanch.Id;
-                //        viewModel.Code = scoreReturnLanch.Code;
-                //        viewModel.FullRange = (viewModel.ReturnLunch - scoreReturnLanch.OutLanch);
+                if (retornoIntervalo != null)
+                {
+                    viewModel.RetornoIntervalo = TimeSpan.Parse(lblHoraAtual.Text);
+                    viewModel.Id = retornoIntervalo.Id;
+                    viewModel.TotalIntervalo = (viewModel.RetornoIntervalo - retornoIntervalo.SaidaIntervalo);
 
-                //        var result = _context.Scores.Find(viewModel.Id);
+                    var result = _context.Ponto.Find(viewModel.Id);
 
-                //        result.UpdateReturnLanch(returnLanch: viewModel.ReturnLunch, fullRange: viewModel.FullRange);
+                    result.RetornoAlmocoIntervalo(retornoIntervalo: viewModel.RetornoIntervalo, totalIntervalo: viewModel.TotalIntervalo);
 
-                //        logViewModel.Log = (int)StatusLog.ELog.RetornoAlmoco;
-                //        logViewModel.EmployeeId = employee.Id;
+                    logViewModel.Log = (int)LogPonto.ELog.RetornoAlmoco;
+                    logViewModel.Descricao = "Retonou do almoço/intervalo";
+                    logViewModel.FuncionarioId = funcionario.Id;
 
-                //        var logModel = new LogScore(log: logViewModel.Log, employeeId: logViewModel.EmployeeId);
+                    var logModel = new LogPonto(log: logViewModel.Log, descricao: logViewModel.Descricao, funcionarioid: logViewModel.FuncionarioId);
 
-                //        _context.Scores.Update(result);
-                //        _context.SaveChanges();
+                    _context.Ponto.Update(result);
+                    _context.SaveChanges();
 
-                //        _context.Add(logModel);
-                //        _context.SaveChanges();
+                    _context.Add(logModel);
+                    _context.SaveChanges();
 
-                //        GetAll();
-                //        ClearFields();
-                //        return;
-                //    }
+                    GetAll();
+                    return;
+                }
 
-                //    var scoreDepartureTime = _context.Scores.Where(a => a.EmployeeId == employee.Id && a.Code == employee.Code && a.Inserted == date
-                //                                                   /*a.DepartureTime != DateTime.Now*/ && logScore == 3).SingleOrDefault();
+                var saida = _context.Ponto.Where(a => a.FuncionarioId == funcionario.Id && a.Matricula == funcionario.Matricula&& a.Inserted == date
+                                                                    && logPonto == (int)LogPonto.ELog.RetornoAlmoco).SingleOrDefault();
 
-                //    if (scoreDepartureTime != null)
-                //    {
-                //        viewModel.DepartureTime = TimeSpan.Parse(lblHoraAtual.Text);
-                //        viewModel.Worked = (viewModel.DepartureTime - scoreDepartureTime.EntryTime - scoreDepartureTime.FullRange);
-                //        viewModel.Id = scoreDepartureTime.Id;
+                if (saida != null)
+                {
+                    viewModel.Saida = TimeSpan.Parse(lblHoraAtual.Text);
+                    viewModel.TotalTrabalhado = (viewModel.Saida - saida.Entrada - saida.TotalIntervalo);
+                    viewModel.Id = saida.Id;
 
-                //        viewModel.Minutes = viewModel.Worked.TotalMinutes;
+                    viewModel.Minutos = viewModel.TotalTrabalhado.TotalMinutes;
 
-                //        var result = _context.Scores.Find(viewModel.Id);
+                    var result = _context.Ponto.Find(viewModel.Id);
 
-                //        result.UpdateDepartureTime(departureTime: viewModel.DepartureTime,
-                //            worked: viewModel.Worked,
-                //            minutes: viewModel.Minutes);
+                    result.FinalizarDia(saida: viewModel.Saida,
+                        totalTrabalhado: viewModel.TotalTrabalhado,
+                        minutos: viewModel.Minutos);
 
-                //        logViewModel.Log = (int)StatusLog.ELog.FinalizouTrabalho;
-                //        logViewModel.EmployeeId = employee.Id;
+                    logViewModel.Log = (int)LogPonto.ELog.FinalizouTrabalho;
+                    logViewModel.Descricao = "Finalizou os trabalhos";
+                    logViewModel.FuncionarioId = funcionario.Id;
 
-                //        var logModel = new LogScore(log: logViewModel.Log, employeeId: logViewModel.EmployeeId);
+                    var logModel = new LogPonto(log: logViewModel.Log, descricao: logViewModel.Descricao, funcionarioid: logViewModel.FuncionarioId);
 
-                //        _context.Scores.Update(result);
-                //        _context.SaveChanges();
+                    _context.Ponto.Update(result);
+                    _context.SaveChanges();
 
-                //        _context.Add(logModel);
-                //        _context.SaveChanges();
+                    _context.Add(logModel);
+                    _context.SaveChanges();
 
-                //        GetAll();
-                //        ClearFields();
-                //    }
-                //    else
-                //    {
-                //        MessageBox.Show($"{employee.Name}, você já marcou os pontos do dia!", "Alerta", MessageBoxButtons.OK,
-                //        MessageBoxIcon.Information);
-                //        ClearFields();
-                //    }
+                    GetAll();
+                }
+                else
+                {
+                    MessageBox.Show($"{funcionario.Nome}, você já marcou os pontos do dia!", "Alerta", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                }
             }
             else
             {
                 MessageBox.Show("Funcionário não encontrado!", "Alerta", MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
-                //ClearFields();
             }
         }
 
