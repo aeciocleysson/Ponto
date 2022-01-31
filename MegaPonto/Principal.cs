@@ -19,28 +19,33 @@ namespace MegaPonto
             Starts();
         }
 
-
         private void Starts()
         {
             _context = new DataContext();
 
             GetAll();
+
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
             lblDateDay.Text = DateTime.Now.ToString("dd/MM/yyyy");
 
-            txtMatricula.Focus();
-            txtMatricula.Select();
+            ClearField();
         }
+
         private void timerHora_Tick(object sender, EventArgs e)
         {
             this.lblHoraAtual.Text = DateTime.Now.ToString("HH:mm:ss");
         }
 
+        private void ClearField()
+        {
+            txtMatricula.Clear();
+            txtMatricula.Focus();
+            txtMatricula.Select();
+        }
+
         public void GetAll()
         {
             var funcionarioPonto = _context.Ponto
-
-
                 .Where(w => w.Inserted == date)
                 .Select(s => new
                 {
@@ -58,7 +63,7 @@ namespace MegaPonto
 
             dgvScore.DataSource = funcionarioPonto;
         }
-
+              
         public void InsertInput(long matricula)
         {
             var funcionario = _context.Funcionario.SingleOrDefault(w => w.Matricula == matricula);
@@ -93,6 +98,7 @@ namespace MegaPonto
                     _context.SaveChanges();
 
                     GetAll();
+                    ClearField();
                     return;
                 }
 
@@ -123,6 +129,7 @@ namespace MegaPonto
                     _context.SaveChanges();
 
                     GetAll();
+                    ClearField();
                     return;
                 }
 
@@ -152,10 +159,11 @@ namespace MegaPonto
                     _context.SaveChanges();
 
                     GetAll();
+                    ClearField();
                     return;
                 }
 
-                var saida = _context.Ponto.Where(a => a.FuncionarioId == funcionario.Id && a.Matricula == funcionario.Matricula&& a.Inserted == date
+                var saida = _context.Ponto.Where(a => a.FuncionarioId == funcionario.Id && a.Matricula == funcionario.Matricula && a.Inserted == date
                                                                     && logPonto == (int)LogPonto.ELog.RetornoAlmoco).SingleOrDefault();
 
                 if (saida != null)
@@ -185,17 +193,20 @@ namespace MegaPonto
                     _context.SaveChanges();
 
                     GetAll();
+                    ClearField();
                 }
                 else
                 {
                     MessageBox.Show($"{funcionario.Nome}, você já marcou os pontos do dia!", "Alerta", MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
+                    ClearField();
                 }
             }
             else
             {
                 MessageBox.Show("Funcionário não encontrado!", "Alerta", MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
+                ClearField();
             }
         }
 
@@ -205,16 +216,22 @@ namespace MegaPonto
 
             if (e.KeyChar == 13)
             {
-                //if (long.TryParse(txtMatricula.Text, out isNumber))
-                //{
-                InsertInput(Convert.ToInt64(txtMatricula.Text));
-                //}
-                //else
-                //{
-                //    MessageBox.Show("Esse campo só aceita número!", "Alerta", MessageBoxButtons.OK,
-                //    MessageBoxIcon.Information);
-                //}
+                if (long.TryParse(txtMatricula.Text, out isNumber))
+                {
+                    InsertInput(Convert.ToInt64(txtMatricula.Text));
+                }
+                else
+                {
+                    MessageBox.Show("Esse campo só aceita número!", "Alerta", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                    ClearField();
+                }
             }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
