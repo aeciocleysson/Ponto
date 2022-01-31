@@ -233,5 +233,11 @@ namespace MegaPonto
         {
             Close();
         }
-    }
+
+        private void timerGetAllPonto_Tick(object sender, EventArgs e)
+        {
+            GetAll();
+            ClearField();
+        }
+    } 
 }
