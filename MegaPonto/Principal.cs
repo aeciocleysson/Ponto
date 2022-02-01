@@ -58,12 +58,12 @@ namespace MegaPonto
                     Intervalo = s.TotalIntervalo,
                     Saida = s.Saida,
                     Total = s.TotalTrabalhado
-                }).OrderBy(o => o.Código)
+                }).OrderBy(o => o.Funcionário)
                 .ToList();
 
             dgvScore.DataSource = funcionarioPonto;
         }
-              
+
         public void InsertInput(long matricula)
         {
             var funcionario = _context.Funcionario.SingleOrDefault(w => w.Matricula == matricula);
@@ -239,5 +239,5 @@ namespace MegaPonto
             GetAll();
             ClearField();
         }
-    } 
+    }
 }
