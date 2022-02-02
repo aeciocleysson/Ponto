@@ -17,13 +17,24 @@ namespace MegaPonto.Model
             RetornoAlmoco = 3,
 
             [Description("Finalizou os trabalhos")]
-            FinalizouTrabalho = 4
+            FinalizouTrabalho = 4,
+
+            [Description("Ponto Inserido manualmente")]
+            PontoManual = 5,
+
+            [Description("Trabalhado")]
+            Trabalhado = 6,
+
+            [Description("Atestado médico")]
+            Atestado = 7,
+
+            [Description("Faltou")]
+            Faltou = 8
         }
 
         public int Log { get; private set; }
         public int FuncionarioId { get; private set; }
         public string Descricao { get; private set; }
-        //public ELog StatusLog { get; set; }
         public Funcionario Funcionario { get; set; }
 
         public LogPonto()

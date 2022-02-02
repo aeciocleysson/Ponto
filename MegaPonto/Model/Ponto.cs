@@ -13,6 +13,7 @@ namespace MegaPonto.Model
         public TimeSpan Saida { get; private set; }
         public TimeSpan TotalTrabalhado { get; private set; }
         public double Minutos { get; private set; }
+        public int Log { get; private set; }
         public virtual Funcionario Funcionario { get; private set; }
 
         public Ponto() { }
@@ -35,11 +36,12 @@ namespace MegaPonto.Model
             TotalIntervalo = totalIntervalo;
         }
 
-        public void FinalizarDia(TimeSpan saida, TimeSpan totalTrabalhado, double minutos)
+        public void FinalizarDia(TimeSpan saida, TimeSpan totalTrabalhado, double minutos, int log)
         {
             Saida = saida;
             TotalTrabalhado = totalTrabalhado;
             Minutos = minutos;
+            Log = log;
             UpdateAt = DateTime.Now;
         }
 

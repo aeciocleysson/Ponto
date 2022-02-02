@@ -13,5 +13,6 @@ namespace MegaPonto.ViewModel
         public int FuncionarioId { get; set; }
         public long Matricula { get; set; }
         public double Minutos { get; set; }
+        public int Log { get; set; }
     }
 }

@@ -171,6 +171,7 @@ namespace MegaPonto
                     viewModel.Saida = TimeSpan.Parse(lblHoraAtual.Text);
                     viewModel.TotalTrabalhado = (viewModel.Saida - saida.Entrada - saida.TotalIntervalo);
                     viewModel.Id = saida.Id;
+                    viewModel.Log = (int)LogPonto.ELog.Trabalhado;
 
                     viewModel.Minutos = viewModel.TotalTrabalhado.TotalMinutes;
 
@@ -178,10 +179,13 @@ namespace MegaPonto
 
                     result.FinalizarDia(saida: viewModel.Saida,
                         totalTrabalhado: viewModel.TotalTrabalhado,
-                        minutos: viewModel.Minutos);
+                        minutos: viewModel.Minutos,
+                        log: viewModel.Log);
 
                     logViewModel.Log = (int)LogPonto.ELog.FinalizouTrabalho;
                     logViewModel.Descricao = "Finalizou os trabalhos";
+                    logViewModel.Log = (int)LogPonto.ELog.Trabalhado;
+                    logViewModel.Descricao = "Trabalhado";
                     logViewModel.FuncionarioId = funcionario.Id;
 
                     var logModel = new LogPonto(log: logViewModel.Log, descricao: logViewModel.Descricao, funcionarioid: logViewModel.FuncionarioId);
