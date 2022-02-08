@@ -85,11 +85,10 @@ namespace MegaPonto
                         funcionarioId: viewModel.FuncionarioId,
                         matricula: viewModel.Matricula);
 
-                    logViewModel.Log = (int)LogPonto.ELog.InicioTrabalho;
-                    logViewModel.Descricao = "Iniciou os trabalhos";
+                    logViewModel.StatusLogId = (int)LogPonto.ELog.InicioTrabalho;
                     logViewModel.FuncionarioId = funcionario.Id;
 
-                    var logModel = new LogPonto(log: logViewModel.Log, descricao: logViewModel.Descricao, logViewModel.FuncionarioId);
+                    var logModel = new LogPonto(statusLogId: logViewModel.StatusLogId, logViewModel.FuncionarioId);
 
                     _context.Add(model);
                     _context.SaveChanges();
@@ -102,7 +101,7 @@ namespace MegaPonto
                     return;
                 }
 
-                var logPonto = _context.Log.Where(w => w.FuncionarioId == funcionario.Id && w.Inserted == DateTime.Today).Max(w => w.Log);
+                var logPonto = _context.Log.Where(w => w.FuncionarioId == funcionario.Id && w.Inserted == DateTime.Today).Max(w => w.StatusLogId);
 
                 var saidaIntervalo = _context.Ponto.Where(a => a.FuncionarioId == funcionario.Id && a.Matricula == funcionario.Matricula && a.Inserted == date
                                                               && logPonto == (int)LogPonto.ELog.InicioTrabalho).SingleOrDefault();
@@ -116,11 +115,10 @@ namespace MegaPonto
 
                     result.SaidaAlmocoIntervalo(saidaIntervalo: viewModel.SaidaIntervalo);
 
-                    logViewModel.Log = (int)LogPonto.ELog.SaidaAlmoco;
-                    logViewModel.Descricao = "Saiu para o almoço/intervalo";
+                    logViewModel.StatusLogId = (int)LogPonto.ELog.SaidaAlmoco;
                     logViewModel.FuncionarioId = funcionario.Id;
 
-                    var logModel = new LogPonto(log: logViewModel.Log, descricao: logViewModel.Descricao, funcionarioid: logViewModel.FuncionarioId);
+                    var logModel = new LogPonto(statusLogId: logViewModel.StatusLogId, funcionarioid: logViewModel.FuncionarioId);
 
                     _context.Ponto.Update(result);
                     _context.SaveChanges();
@@ -146,11 +144,10 @@ namespace MegaPonto
 
                     result.RetornoAlmocoIntervalo(retornoIntervalo: viewModel.RetornoIntervalo, totalIntervalo: viewModel.TotalIntervalo);
 
-                    logViewModel.Log = (int)LogPonto.ELog.RetornoAlmoco;
-                    logViewModel.Descricao = "Retonou do almoço/intervalo";
+                    logViewModel.StatusLogId = (int)LogPonto.ELog.RetornoAlmoco;
                     logViewModel.FuncionarioId = funcionario.Id;
 
-                    var logModel = new LogPonto(log: logViewModel.Log, descricao: logViewModel.Descricao, funcionarioid: logViewModel.FuncionarioId);
+                    var logModel = new LogPonto(statusLogId: logViewModel.StatusLogId, funcionarioid: logViewModel.FuncionarioId);
 
                     _context.Ponto.Update(result);
                     _context.SaveChanges();
@@ -171,7 +168,7 @@ namespace MegaPonto
                     viewModel.Saida = TimeSpan.Parse(lblHoraAtual.Text);
                     viewModel.TotalTrabalhado = (viewModel.Saida - saida.Entrada - saida.TotalIntervalo);
                     viewModel.Id = saida.Id;
-                    viewModel.Log = (int)LogPonto.ELog.Trabalhado;
+                    viewModel.LogPontoId = (int)LogPonto.ELog.Trabalhado;
 
                     viewModel.Minutos = viewModel.TotalTrabalhado.TotalMinutes;
 
@@ -180,15 +177,12 @@ namespace MegaPonto
                     result.FinalizarDia(saida: viewModel.Saida,
                         totalTrabalhado: viewModel.TotalTrabalhado,
                         minutos: viewModel.Minutos,
-                        log: viewModel.Log);
+                        logPontoId: viewModel.LogPontoId);
 
-                    logViewModel.Log = (int)LogPonto.ELog.FinalizouTrabalho;
-                    logViewModel.Descricao = "Finalizou os trabalhos";
-                    logViewModel.Log = (int)LogPonto.ELog.Trabalhado;
-                    logViewModel.Descricao = "Trabalhado";
+                    logViewModel.StatusLogId = (int)LogPonto.ELog.Trabalhado;
                     logViewModel.FuncionarioId = funcionario.Id;
 
-                    var logModel = new LogPonto(log: logViewModel.Log, descricao: logViewModel.Descricao, funcionarioid: logViewModel.FuncionarioId);
+                    var logModel = new LogPonto(statusLogId: logViewModel.StatusLogId, funcionarioid: logViewModel.FuncionarioId);
 
                     _context.Ponto.Update(result);
                     _context.SaveChanges();

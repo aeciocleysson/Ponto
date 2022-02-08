@@ -32,19 +32,17 @@ namespace MegaPonto.Model
             Faltou = 8
         }
 
-        public int Log { get; private set; }
+        public int StatusLogId { get; private set; }
         public int FuncionarioId { get; private set; }
-        public string Descricao { get; private set; }
         public Funcionario Funcionario { get; set; }
 
         public LogPonto()
         {
 
         }
-        public LogPonto(int log, string descricao, int funcionarioid)
+        public LogPonto(int statusLogId, int funcionarioid)
         {
-            Log = log;
-            Descricao = descricao;
+            StatusLogId = statusLogId;
             FuncionarioId = funcionarioid;
         }
     }
