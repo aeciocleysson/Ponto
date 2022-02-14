@@ -2,6 +2,7 @@
 using MegaPonto.Model;
 using MegaPonto.ViewModel;
 using System;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -23,11 +24,10 @@ namespace MegaPonto
         {
             _context = new DataContext();
 
-            GetAll();
-
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
             lblDateDay.Text = DateTime.Now.ToString("dd/MM/yyyy");
 
+            GetAll();
             ClearField();
         }
 
@@ -46,7 +46,7 @@ namespace MegaPonto
         public void GetAll()
         {
             var funcionarioPonto = _context.Ponto
-                .Where(w => w.Inserted == date)
+                .Where(w => w.Inserted == Convert.ToDateTime(lblDateDay.Text))
                 .Select(s => new
                 {
                     Código = s.Id,
@@ -62,6 +62,10 @@ namespace MegaPonto
                 .ToList();
 
             dgvScore.DataSource = funcionarioPonto;
+            dgvScore.Columns["SaidaAlmoço"].HeaderText = "Saida Intervalo";
+            dgvScore.Columns["RetornoAlmoço"].HeaderText = "Retorno Intervalo";
+            dgvScore.Columns["Intervalo"].HeaderText = "Total Intervalo";
+            dgvScore.Columns["Total"].DefaultCellStyle.Font = new Font(dgvScore.DefaultCellStyle.Font.FontFamily, 8, FontStyle.Bold);
         }
 
         public void InsertInput(long matricula)
@@ -234,8 +238,7 @@ namespace MegaPonto
 
         private void timerGetAllPonto_Tick(object sender, EventArgs e)
         {
-            GetAll();
-            ClearField();
+            Starts();
         }
     }
 }
