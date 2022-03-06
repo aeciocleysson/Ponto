@@ -1,4 +1,5 @@
-﻿using MegaPonto.Data;
+﻿using AntaresBackup;
+using MegaPonto.Data;
 using MegaPonto.Model;
 using MegaPonto.ViewModel;
 using System;
@@ -239,6 +240,18 @@ namespace MegaPonto
         private void timerGetAllPonto_Tick(object sender, EventArgs e)
         {
             Starts();
+
+            CriarBackup backup = new CriarBackup();
+
+            var horarioInicio = TimeSpan.Parse("02:00");
+            var horarioFim = TimeSpan.Parse("02:10");
+
+            var horario = TimeSpan.Parse(DateTime.Now.ToShortTimeString());
+
+            if (horario > horarioInicio && horario <= horarioFim)
+                backup.ExecutarBackup();
+            else
+                return;
         }
     }
 }

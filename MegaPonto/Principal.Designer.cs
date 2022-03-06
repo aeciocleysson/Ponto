@@ -200,7 +200,7 @@ namespace MegaPonto
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Principal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Mega Ponto";
+            this.Text = "Antares";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.groupBox.ResumeLayout(false);
             this.groupBox.PerformLayout();
