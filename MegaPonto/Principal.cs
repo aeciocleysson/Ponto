@@ -15,6 +15,7 @@ namespace MegaPonto
     {
         private DataContext _context;
         private DateTime date = DateTime.Today;
+        public TimeSpan horaBackup = TimeSpan.Parse("19:03:00");
         public Principal()
         {
             InitializeComponent();
@@ -27,6 +28,7 @@ namespace MegaPonto
 
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
             lblDateDay.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            lblDia.Text = DateTime.Now.ToString("dddd", new CultureInfo("pt-BR"));
 
             GetAll();
             ClearField();
@@ -35,6 +37,12 @@ namespace MegaPonto
         private void timerHora_Tick(object sender, EventArgs e)
         {
             this.lblHoraAtual.Text = DateTime.Now.ToString("HH:mm:ss");
+                      
+            // Rotina de backup diaria
+            if(TimeSpan.Parse(lblHoraAtual.Text) == horaBackup && lblDia.Text != "domingo")
+                CriarBackup.ExecutarBackup();
+            else
+                return;
         }
 
         private void ClearField()
@@ -240,18 +248,6 @@ namespace MegaPonto
         private void timerGetAllPonto_Tick(object sender, EventArgs e)
         {
             Starts();
-
-            CriarBackup backup = new CriarBackup();
-
-            var horarioInicio = TimeSpan.Parse("02:00");
-            var horarioFim = TimeSpan.Parse("02:10");
-
-            var horario = TimeSpan.Parse(DateTime.Now.ToShortTimeString());
-
-            if (horario > horarioInicio && horario <= horarioFim)
-                backup.ExecutarBackup();
-            else
-                return;
         }
     }
 }

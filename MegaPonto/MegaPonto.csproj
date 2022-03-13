@@ -23,7 +23,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>7</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -263,7 +263,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AntaresBackup\AntaresBackup.csproj">
-      <Project>{57363615-6713-444a-b595-a8c5ee4adbee}</Project>
+      <Project>{57363615-6713-444A-B595-A8C5EE4ADBEE}</Project>
       <Name>AntaresBackup</Name>
     </ProjectReference>
   </ItemGroup>
