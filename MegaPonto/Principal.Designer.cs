@@ -31,8 +31,10 @@ namespace MegaPonto
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Principal));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblDia = new System.Windows.Forms.Label();
             this.lblHoraAtual = new System.Windows.Forms.Label();
             this.lblDateDay = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -44,8 +46,6 @@ namespace MegaPonto
             this.dgvScore = new System.Windows.Forms.DataGridView();
             this.timerHora = new System.Windows.Forms.Timer(this.components);
             this.timerGetAllPonto = new System.Windows.Forms.Timer(this.components);
-            this.lblDia = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.groupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -72,11 +72,31 @@ namespace MegaPonto
             this.groupBox.TabIndex = 2;
             this.groupBox.TabStop = false;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(102, 37);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(17, 24);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "-";
+            // 
+            // lblDia
+            // 
+            this.lblDia.AutoSize = true;
+            this.lblDia.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDia.Location = new System.Drawing.Point(8, 37);
+            this.lblDia.Name = "lblDia";
+            this.lblDia.Size = new System.Drawing.Size(38, 24);
+            this.lblDia.TabIndex = 13;
+            this.lblDia.Text = "dia";
+            // 
             // lblHoraAtual
             // 
             this.lblHoraAtual.AutoSize = true;
             this.lblHoraAtual.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHoraAtual.Location = new System.Drawing.Point(218, 37);
+            this.lblHoraAtual.Location = new System.Drawing.Point(248, 37);
             this.lblHoraAtual.Name = "lblHoraAtual";
             this.lblHoraAtual.Size = new System.Drawing.Size(52, 24);
             this.lblHoraAtual.TabIndex = 12;
@@ -86,7 +106,7 @@ namespace MegaPonto
             // 
             this.lblDateDay.AutoSize = true;
             this.lblDateDay.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDateDay.Location = new System.Drawing.Point(16, 37);
+            this.lblDateDay.Location = new System.Drawing.Point(125, 37);
             this.lblDateDay.Name = "lblDateDay";
             this.lblDateDay.Size = new System.Drawing.Size(51, 24);
             this.lblDateDay.TabIndex = 11;
@@ -169,14 +189,14 @@ namespace MegaPonto
             this.dgvScore.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvScore.BackgroundColor = System.Drawing.Color.White;
             this.dgvScore.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.Desktop;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvScore.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.Desktop;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvScore.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvScore.Location = new System.Drawing.Point(12, 142);
             this.dgvScore.Name = "dgvScore";
             this.dgvScore.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -194,26 +214,6 @@ namespace MegaPonto
             this.timerGetAllPonto.Enabled = true;
             this.timerGetAllPonto.Interval = 3600000;
             this.timerGetAllPonto.Tick += new System.EventHandler(this.timerGetAllPonto_Tick);
-            // 
-            // lblDia
-            // 
-            this.lblDia.AutoSize = true;
-            this.lblDia.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDia.Location = new System.Drawing.Point(142, 37);
-            this.lblDia.Name = "lblDia";
-            this.lblDia.Size = new System.Drawing.Size(38, 24);
-            this.lblDia.TabIndex = 13;
-            this.lblDia.Text = "dia";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(128, 38);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(17, 24);
-            this.label2.TabIndex = 14;
-            this.label2.Text = "-";
             // 
             // Principal
             // 
