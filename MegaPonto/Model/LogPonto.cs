@@ -35,7 +35,6 @@ namespace MegaPonto.Model
         public int StatusLogId { get; private set; }
         public int FuncionarioId { get; private set; }
         public Funcionario Funcionario { get; set; }
-
         public LogPonto()
         {
 

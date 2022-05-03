@@ -66,7 +66,8 @@ namespace MegaPonto
                     RetornoAlmoço = s.RetornoIntervalo,
                     Intervalo = s.TotalIntervalo,
                     Saida = s.Saida,
-                    Total = s.TotalTrabalhado
+                    Total = s.TotalTrabalhado,
+                    Log = s.LogPontoId == 6 ? "Trabalhado" : ""
                 }).OrderBy(o => o.Funcionário)
                 .ToList();
 

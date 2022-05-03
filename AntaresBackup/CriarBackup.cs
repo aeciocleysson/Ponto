@@ -10,7 +10,8 @@ namespace AntaresBackup
     {
         public static void ExecutarBackup()
         {
-            string connectionString = "Host=192.168.1.200;Database=dbmega;Username=mega;Password=mega@3212";
+            //string connectionString = "Host=192.168.1.200;Database=dbmega;Username=mega;Password=mega@3212";
+            string connectionString = "Host=127.0.0.1;Database=dbmega;Username=mega;Password=mega@3212";
             //string connectionString = "Host=127.0.0.1;Database=dberpmega;Username=root;Password=3103";
 
             string local = $"C:\\Antares\\Backup\\Sql\\";
@@ -26,7 +27,8 @@ namespace AntaresBackup
                 vWriter.Flush();
 
                 var nomeDoArquivo = $"{ano}_{mes}_{dia}_{hora}";
-                var destino = $"C:\\Antares\\Backup\\Zipado\\Antares Mega\\dumpMega_{nomeDoArquivo}.zip";
+                //var destino = $"C:\\Antares\\Backup\\Zipado\\Antares Mega\\dumpMega_{nomeDoArquivo}.zip";
+                var destino = $"C:\\Antares\\Backup\\Zipado\\Antares Rb\\dumpRb_{nomeDoArquivo}.zip";
 
                 var arquivo = local + "\\" + nomeDoArquivo + ".sql";
                 MySqlConnection conn = new MySqlConnection(connectionString);
