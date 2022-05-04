@@ -37,9 +37,9 @@ namespace MegaPonto
         private void timerHora_Tick(object sender, EventArgs e)
         {
             this.lblHoraAtual.Text = DateTime.Now.ToString("HH:mm:ss");
-                      
+
             // Rotina de backup diaria
-            if(TimeSpan.Parse(lblHoraAtual.Text) == horaBackup && lblDia.Text != "domingo ,")
+            if (TimeSpan.Parse(lblHoraAtual.Text) == horaBackup && lblDia.Text != "domingo ,")
                 CriarBackup.ExecutarBackup();
             else
                 return;
@@ -67,7 +67,7 @@ namespace MegaPonto
                     Intervalo = s.TotalIntervalo,
                     Saida = s.Saida,
                     Total = s.TotalTrabalhado,
-                    Log = s.LogPontoId == 6 ? "Trabalhado" : ""
+                    Status = s.LogPontoId == 1 ? "Trabalhando" : s.LogPontoId == 2 ? "Intevalo" : s.LogPontoId == 3 ? "Trabalhando" : s.LogPontoId == 6 ? "Dia Finalizado" : ""
                 }).OrderBy(o => o.Funcionário)
                 .ToList();
 
@@ -76,6 +76,7 @@ namespace MegaPonto
             dgvScore.Columns["RetornoAlmoço"].HeaderText = "Retorno Intervalo";
             dgvScore.Columns["Intervalo"].HeaderText = "Total Intervalo";
             dgvScore.Columns["Total"].DefaultCellStyle.Font = new Font(dgvScore.DefaultCellStyle.Font.FontFamily, 8, FontStyle.Bold);
+            dgvScore.Columns["Status"].DefaultCellStyle.Font = new Font(dgvScore.DefaultCellStyle.Font.FontFamily, 8, FontStyle.Bold);
         }
 
         public void InsertInput(long matricula)
@@ -87,6 +88,7 @@ namespace MegaPonto
                 var viewModel = new PontoViewModel();
                 var logViewModel = new LogScoreViewModel();
 
+                // Inicio das atividades
                 var entrada = _context.Ponto.Any(a => a.FuncionarioId == funcionario.Id && a.Matricula == funcionario.Matricula && a.Inserted == date);
 
                 if (!entrada)
@@ -94,10 +96,12 @@ namespace MegaPonto
                     viewModel.FuncionarioId = funcionario.Id;
                     viewModel.Matricula = funcionario.Matricula;
                     viewModel.Entrada = TimeSpan.Parse(lblHoraAtual.Text);
+                    viewModel.LogPontoId = (int)LogPonto.ELog.InicioTrabalho;
 
                     var model = new Ponto(entrada: viewModel.Entrada,
                         funcionarioId: viewModel.FuncionarioId,
-                        matricula: viewModel.Matricula);
+                        matricula: viewModel.Matricula,
+                        logPontoId: viewModel.LogPontoId);
 
                     logViewModel.StatusLogId = (int)LogPonto.ELog.InicioTrabalho;
                     logViewModel.FuncionarioId = funcionario.Id;
@@ -115,19 +119,21 @@ namespace MegaPonto
                     return;
                 }
 
+                // Saída para intervalo
                 var logPonto = _context.Log.Where(w => w.FuncionarioId == funcionario.Id && w.Inserted == DateTime.Today).Max(w => w.StatusLogId);
 
                 var saidaIntervalo = _context.Ponto.Where(a => a.FuncionarioId == funcionario.Id && a.Matricula == funcionario.Matricula && a.Inserted == date
                                                               && logPonto == (int)LogPonto.ELog.InicioTrabalho).SingleOrDefault();
-
                 if (saidaIntervalo != null)
                 {
                     viewModel.SaidaIntervalo = TimeSpan.Parse(lblHoraAtual.Text);
                     viewModel.Id = saidaIntervalo.Id;
+                    viewModel.LogPontoId = (int)LogPonto.ELog.SaidaAlmoco;
 
                     var result = _context.Ponto.Find(viewModel.Id);
 
-                    result.SaidaAlmocoIntervalo(saidaIntervalo: viewModel.SaidaIntervalo);
+                    result.SaidaAlmocoIntervalo(saidaIntervalo: viewModel.SaidaIntervalo,
+                                                logPontoId: viewModel.LogPontoId);
 
                     logViewModel.StatusLogId = (int)LogPonto.ELog.SaidaAlmoco;
                     logViewModel.FuncionarioId = funcionario.Id;
@@ -145,6 +151,7 @@ namespace MegaPonto
                     return;
                 }
 
+                // Retorno intervalo
                 var retornoIntervalo = _context.Ponto.Where(a => a.FuncionarioId == funcionario.Id && a.Matricula == funcionario.Matricula && a.Inserted == date
                                                                   && logPonto == (int)LogPonto.ELog.SaidaAlmoco).SingleOrDefault();
 
@@ -153,10 +160,12 @@ namespace MegaPonto
                     viewModel.RetornoIntervalo = TimeSpan.Parse(lblHoraAtual.Text);
                     viewModel.Id = retornoIntervalo.Id;
                     viewModel.TotalIntervalo = (viewModel.RetornoIntervalo - retornoIntervalo.SaidaIntervalo);
+                    viewModel.LogPontoId = (int)LogPonto.ELog.RetornoAlmoco;
 
                     var result = _context.Ponto.Find(viewModel.Id);
 
-                    result.RetornoAlmocoIntervalo(retornoIntervalo: viewModel.RetornoIntervalo, totalIntervalo: viewModel.TotalIntervalo);
+                    result.RetornoAlmocoIntervalo(retornoIntervalo: viewModel.RetornoIntervalo, totalIntervalo: viewModel.TotalIntervalo,
+                                                   logPontoId: viewModel.LogPontoId);
 
                     logViewModel.StatusLogId = (int)LogPonto.ELog.RetornoAlmoco;
                     logViewModel.FuncionarioId = funcionario.Id;
@@ -174,6 +183,7 @@ namespace MegaPonto
                     return;
                 }
 
+                // Finalizando as atividades
                 var saida = _context.Ponto.Where(a => a.FuncionarioId == funcionario.Id && a.Matricula == funcionario.Matricula && a.Inserted == date
                                                                     && logPonto == (int)LogPonto.ELog.RetornoAlmoco).SingleOrDefault();
 

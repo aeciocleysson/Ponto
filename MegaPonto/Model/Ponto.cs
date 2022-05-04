@@ -19,22 +19,25 @@ namespace MegaPonto.Model
 
         public Ponto() { }
 
-        public Ponto(int funcionarioId, long matricula, TimeSpan entrada)
+        public Ponto(int funcionarioId, long matricula, TimeSpan entrada, int logPontoId)
         {
             FuncionarioId = funcionarioId;
             Matricula = matricula;
             Entrada = entrada;
+            LogPontoId = logPontoId;
         }
 
-        public void SaidaAlmocoIntervalo(TimeSpan saidaIntervalo)
+        public void SaidaAlmocoIntervalo(TimeSpan saidaIntervalo, int logPontoId)
         {
             SaidaIntervalo = saidaIntervalo;
+            LogPontoId = logPontoId;
         }
 
-        public void RetornoAlmocoIntervalo(TimeSpan retornoIntervalo, TimeSpan totalIntervalo)
+        public void RetornoAlmocoIntervalo(TimeSpan retornoIntervalo, TimeSpan totalIntervalo, int logPontoId)
         {
             RetornoIntervalo = retornoIntervalo;
             TotalIntervalo = totalIntervalo;
+            LogPontoId = logPontoId;
         }
 
         public void FinalizarDia(TimeSpan saida, TimeSpan totalTrabalhado, double minutos, int logPontoId)
