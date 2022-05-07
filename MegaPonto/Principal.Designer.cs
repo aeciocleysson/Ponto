@@ -84,7 +84,7 @@ namespace MegaPonto
             // 
             this.lblHoraAtual.AutoSize = true;
             this.lblHoraAtual.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHoraAtual.Location = new System.Drawing.Point(26, 16);
+            this.lblHoraAtual.Location = new System.Drawing.Point(145, 13);
             this.lblHoraAtual.Name = "lblHoraAtual";
             this.lblHoraAtual.Size = new System.Drawing.Size(73, 33);
             this.lblHoraAtual.TabIndex = 12;
@@ -94,7 +94,7 @@ namespace MegaPonto
             // 
             this.lblDateDay.AutoSize = true;
             this.lblDateDay.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDateDay.Location = new System.Drawing.Point(173, 52);
+            this.lblDateDay.Location = new System.Drawing.Point(26, 21);
             this.lblDateDay.Name = "lblDateDay";
             this.lblDateDay.Size = new System.Drawing.Size(51, 24);
             this.lblDateDay.TabIndex = 11;

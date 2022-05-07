@@ -27,8 +27,8 @@ namespace AntaresBackup
                 vWriter.Flush();
 
                 var nomeDoArquivo = $"{ano}_{mes}_{dia}_{hora}";
-                //var destino = $"C:\\Antares\\Backup\\Zipado\\Antares Mega\\dumpMega_{nomeDoArquivo}.zip";
-                var destino = $"C:\\Antares\\Backup\\Zipado\\Antares Rb\\dumpRb_{nomeDoArquivo}.zip";
+                var destino = $"C:\\Antares\\Backup\\Zipado\\Antares Mega\\dumpMega_{nomeDoArquivo}.zip";
+                //var destino = $"C:\\Antares\\Backup\\Zipado\\Antares Rb\\dumpRb_{nomeDoArquivo}.zip";
 
                 var arquivo = local + "\\" + nomeDoArquivo + ".sql";
                 MySqlConnection conn = new MySqlConnection(connectionString);

@@ -28,7 +28,7 @@ namespace MegaPonto
 
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", false);
             lblDateDay.Text = DateTime.Now.ToString("dd/MM/yyyy");
-            lblDia.Text = DateTime.Now.ToString("dddd ,", new CultureInfo("pt-BR"));
+            lblDia.Text = DateTime.Now.ToString("dddd", new CultureInfo("pt-BR"));
 
             GetAll();
             ClearField();
@@ -39,7 +39,7 @@ namespace MegaPonto
             this.lblHoraAtual.Text = DateTime.Now.ToString("HH:mm:ss");
 
             // Rotina de backup diaria
-            if (TimeSpan.Parse(lblHoraAtual.Text) == horaBackup && lblDia.Text != "domingo ,")
+            if (TimeSpan.Parse(lblHoraAtual.Text) == horaBackup && (int)DateTime.Now.DayOfWeek != 0)
                 CriarBackup.ExecutarBackup();
             else
                 return;
