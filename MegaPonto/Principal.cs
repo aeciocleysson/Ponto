@@ -67,7 +67,7 @@ namespace MegaPonto
                     Intervalo = s.TotalIntervalo,
                     Saida = s.Saida,
                     Total = s.TotalTrabalhado,
-                    Status = s.LogPontoId == 1 ? "Trabalhando" : s.LogPontoId == 2 ? "Intevalo" : s.LogPontoId == 3 ? "Trabalhando" : s.LogPontoId == 6 ? "Dia Finalizado" : ""
+                    Status = s.LogPontoId == 1 ? "Trabalhando" : s.LogPontoId == 2 ? "Intevalo" : s.LogPontoId == 3 ? "Trabalhando" : s.LogPontoId == 5 ? "Dia Finalizado(Manu)"  : s.LogPontoId == 6 ? "Dia Finalizado" : ""
                 }).OrderBy(o => o.Funcionário)
                 .ToList();
 
